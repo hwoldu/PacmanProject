@@ -24,8 +24,8 @@ var pacman = {
     htmlCode: '<div id="pacman" style="margin: 15px;"></div>',
 }
 
-var ghost = {
-    x: 2,
+var ghost1 = {
+    x: 7,
     y: 1,
     htmlCode: '<div id="ghost" style="margin: 15px;"></div>',
 }
@@ -58,8 +58,12 @@ function drawGrid () {
 }
 
 // GHOSTS -----------------
-function displayGhost(){
-    $('.coords' + ghost.x + '-' + ghost.y).html(ghost.htmlCode);
+function displayGhost(oneGhost){
+    $('.coords' + oneGhost.y + '-' + oneGhost.x).html(oneGhost.htmlCode);
+}
+
+function deleteGhost (oneGhost) {
+    $('.coords' + oneGhost.y + '-' + oneGhost.x).html('');
 }
 
 
@@ -75,43 +79,47 @@ function getRandom() {
 
 var currentDirection = 1;
 
-function ghostMove(){
-    var newDirection = getRandom();
-}
+function ghostMove(oneGhost){
+    currentDirection = getRandom();
     
 //Left Right New Direction
-    if(
-        //If it's going right or left and up or down is available
-        ((currentDirection == 1 || currentDirection == 2) && (grid[ghost.y+1][ghost.x]==9 || grid[ghost.y+1][ghost.x]==10 || grid[ghost.y+1][ghost.x]==11 || grid[ghost.y+1][ghost.x]==12 || grid[ghost.y-1][ghost.x]==9 || grid[ghost.y-1][ghost.x]==10 || grid[ghost.y-1][ghost.x]==11 || grid[ghost.y-1][ghost.x]==12))
-        ||
-        //Or if it's going up or down and left or right is available
-        ((currentDirection == 3 || currentDirection == 4) && (grid[ghost.y][ghost.x+1]==9 || grid[ghost.y][ghost.x+1]==10 || grid[ghost.y][ghost.x+1]==11 || grid[ghost.y][ghost.x+1]==12 || grid[ghost.y][ghost.x-1]==9 || grid[ghost.y][ghost.x-1]==10 || grid[ghost.y][ghost.x-1]==11 || grid[ghost.y][ghost.x-1]==12))
-    ){
-        //Check to make sure it won't change direction to it's current direction
-        while(newDirection == currentDirection){
-            newDirection = getRandom();
-        }
-        //Change direction to a new direction
-        currentDirection = newDirection;
-    }
+    // if(
+    //     //If it's going right or left and up or down is available
+    //     ((currentDirection == 1 || currentDirection == 2) && (grid[ghost.y+1][ghost.x]==9 || grid[ghost.y+1][ghost.x]==10 || grid[ghost.y+1][ghost.x]==11 || grid[ghost.y+1][ghost.x]==12 || grid[ghost.y-1][ghost.x]==9 || grid[ghost.y-1][ghost.x]==10 || grid[ghost.y-1][ghost.x]==11 || grid[ghost.y-1][ghost.x]==12))
+    //     ||
+    //     //Or if it's going up or down and left or right is available
+    //     ((currentDirection == 3 || currentDirection == 4) && (grid[ghost.y][ghost.x+1]==9 || grid[ghost.y][ghost.x+1]==10 || grid[ghost.y][ghost.x+1]==11 || grid[ghost.y][ghost.x+1]==12 || grid[ghost.y][ghost.x-1]==9 || grid[ghost.y][ghost.x-1]==10 || grid[ghost.y][ghost.x-1]==11 || grid[ghost.y][ghost.x-1]==12))
+    // ){
+    //     //Check to make sure it won't change direction to it's current direction
+    //     // while(newDirection == currentDirection){
+    //     //     newDirection = getRandom();
+    //     // }
+    //     //Change direction to a new direction
+    //     currentDirection = newDirection;
+    // }
     
-    if(currentDirection ==  1 && (grid[ghost.y][ghost.x-1]==9 || grid[ghost.y][ghost.x-1]==10 || grid[ghost.y][ghost.x-1]==11 || grid[ghost.y][ghost.x-1]==12)){
-        ghost.x --;
-//        console.log("move left")
-    }else if(currentDirection == 2 && (grid[ghost.y][ghost.x+1]==9 || grid[ghost.y][ghost.x+1]==10 || grid[ghost.y][ghost.x+1]==11 || grid[ghost.y][ghost.x+1]==12)){
-//        console.log("move right")
-        ghost.x ++;
-    }else if(currentDirection == 3 && (grid[ghost.y-1][ghost.x]==9 || grid[ghost.y-1][ghost.x]==10 || grid[ghost.y-1][ghost.x]==11 || grid[ghost.y-1][ghost.x]==12)){
-//        console.log("move up")
-        ghost.y --;
-    }else if(currentDirection == 4 && (grid[ghost.y+1][ghost.x]==9 || grid[ghost.y+1][ghost.x]==10 || grid[ghost.y+1][ghost.x]==11 || grid[ghost.y+1][ghost.x]==12)){
-//        console.log("move down")
-        ghost.y ++;
+    deleteGhost(oneGhost);
+
+    if(currentDirection ==  1 && grid[oneGhost.y][oneGhost.x-1] != 0){
+        oneGhost.x --;
+       console.log("move left", grid[oneGhost.y][oneGhost.x-1])
+    }else if(currentDirection == 2 && grid[oneGhost.y][oneGhost.x+1] != 0){
+       console.log("move right", grid[oneGhost.y][oneGhost.x+1])
+        oneGhost.x ++;
+    }else if(currentDirection == 3 && grid[oneGhost.y-1][oneGhost.x] != 0 ){
+       console.log("move up", grid[oneGhost.y-1][oneGhost.x])
+        oneGhost.y --;
+    }else if(currentDirection == 4 && grid[oneGhost.y+1][oneGhost.x] != 0){
+       console.log("move down", grid[oneGhost.y+1][oneGhost.x])
+        oneGhost.y ++;
     }
-   // displayGhost();   
+   displayGhost(oneGhost);   
+}
 
-
-setInterval(ghostMove, 500);
+setInterval(function() {
+    ghostMove(ghost1);
+    console.log(ghost1)
+}, 2000);
 
 
 
@@ -143,7 +151,7 @@ function deleteReward(){
 
 drawGrid()
 $('.coords' +  pacman.row + '-' + pacman.col).html(pacman.htmlCode);
-$('.coords' + ghost.x + '-' + ghost.y).html(ghost.htmlCode);
+displayGhost(ghost1);
 
 // PACMAN MOVEMENT
 document.onkeydown = function(event){
