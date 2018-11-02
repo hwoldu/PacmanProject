@@ -104,11 +104,25 @@ div#pacman {
 }
 
 #score {
-  font: 20px;
+  font-size: 50px;
   color: white;
 
 }
 #gameover {
-  opacity: 0;
+  position: absolute;
+  top: 220px;
+  left: 550px;
+  justify-content: center;
+  z-index: 100;
+}
 
+.hidden {
+  opacity: 0;
+}
+
+
+h1 {
+  color: white;
+  font-weight: bold;
+  font-size: 100px;
 }

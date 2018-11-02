@@ -157,9 +157,11 @@ function deleteReward(){
 
 function gameOver(oneGhost){
     if((pacman.row == oneGhost.y) && (pacman.col == oneGhost.x)){
-        $('#gameover').fadeIn();
-        alert("You lost!");
-        location.reload();
+        $('#gameover').removeClass('hidden');
+        // alert("You lost!");
+        setTimeout(function () {
+            location.reload();
+        },5000);
     }
 }
 
