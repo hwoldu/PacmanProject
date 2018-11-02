@@ -5,17 +5,19 @@ margin: 0 auto;
 
 }
 
-/* .grid {
-  display: grid;
-  grid-auto-columns: 
-  grid-auto-
-} */
-
-
-.row {
-  height: 40px;
+.header {
+  background-position: center;
+  background-size: contain;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
+/* GRID AESTHETICS  */
+.row {
+  height: 40px;
+  
+}
 
 .row div {
   width: 50px;
@@ -24,7 +26,16 @@ margin: 0 auto;
   margin: 0px;
 
 }
-/* // dynamic content  */
+
+.empty {
+  background-color: black;
+ }
+ 
+ .wall {
+   background-color: #0C0075;
+ }
+
+ /* DYNAMIC CONTENT */
 .food {
   background-image: url(../images/food.gif);
   background-repeat: no-repeat;
@@ -33,42 +44,71 @@ margin: 0 auto;
 }
 
 .reward {
-  background-image: url(../images/cherry.png);
+  background-image: url(../images/cherryfruit.gif);
   background-repeat: no-repeat;
-  height: 20px;
-  width: 20px;
+  height: 1px;
+  width: 1px;
   background-position: center;
   background-size: cover;
+  background-size: contain;
 }
 
-div#ghost {
+div#ghostOne {
   background-image: url(../images/clydeghost.png);
   background-repeat: no-repeat;
   background-position: center;
-  height: 20px;
-  width: 20px; 
+  height: 27px;
+  width: 27px; 
   position: absolute;
   background-size: contain;
 }
 
-.empty {
- background-color: black;
+div#ghostTwo {
+  background-image: url(../images/ghostblinky.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 28px;
+  width: 27px; 
+  position: absolute;
+  background-size: contain;
 }
 
-.wall {
-  background-color: #0C0075;
-  border-radius: 5px;
+div#ghostThree {
+  background-image: url(../images/ghostinky.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 27px;
+  width: 27px; 
+  position: absolute;
+  background-size: contain;
+}
+
+div#ghostFour {
+  background-image: url(../images/purpleghost.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 30px;
+  width: 30px; 
+  position: absolute;
+  background-size: contain;
 }
 
 div#pacman {
   background-image: url(../images/pacmanMunch.gif);
   background-repeat: no-repeat;
   background-position: center;
-  width: 20px;
-  height: 20px;
+  width: 35px;
+  height: 35px;
   position: absolute;
   background-size: contain;
 }
 
+#score {
+  font: 20px;
+  color: white;
 
+}
+#gameover {
+  opacity: 0;
 
+}

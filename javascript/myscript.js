@@ -24,17 +24,37 @@ var pacman = {
     htmlCode: '<div id="pacman" style="margin: 15px;"></div>',
 }
 
-var ghost1 = {
+var ghostOne = {
     x: 7,
     y: 1,
-    htmlCode: '<div id="ghost" style="margin: 15px;"></div>',
+    htmlCode: '<div id="ghostOne" style="margin: 15px;"></div>',
 }
+
+var ghostTwo = {
+    x: 10,
+    y: 5,
+    htmlCode: '<div id="ghostTwo" style="margin: 15px;"></div>',
+}
+
+var ghostThree = {
+    x: 4,
+    y: 14,
+    htmlCode: '<div id="ghostThree" style="margin: 15px;"></div>',
+}
+
+var ghostFour = {
+    x: 11,
+    y: 12,
+    htmlCode: '<div id="ghostFour" style="margin: 15px;"></div>',
+}
+
+
 
 var myGrid = document.querySelector('.grid');
 
 console.log(myGrid)
 
-function drawGrid () {
+function displayGrid () {
     var output = '';
     for (var i=0; i < grid.length; i++){
 
@@ -47,6 +67,8 @@ function drawGrid () {
                 output +="<div class='food empty coords"+i+"-"+j+"'></div>";
             }else if(grid[i][j] == 2) {
                 output +="<div class='reward coords"+i+"-"+j+"'></div>";
+            }else{
+                output +="<div class='empty coords"+i+"-"+j+"'></div>";
             }
             
         }
@@ -62,13 +84,10 @@ function displayGhost(oneGhost){
     $('.coords' + oneGhost.y + '-' + oneGhost.x).html(oneGhost.htmlCode);
 }
 
+//Delete Ghost 
 function deleteGhost (oneGhost) {
     $('.coords' + oneGhost.y + '-' + oneGhost.x).html('');
 }
-
-
-
-
 
 
 //GHOST MOVEMENT
@@ -82,21 +101,6 @@ var currentDirection = 1;
 function ghostMove(oneGhost){
     currentDirection = getRandom();
     
-//Left Right New Direction
-    // if(
-    //     //If it's going right or left and up or down is available
-    //     ((currentDirection == 1 || currentDirection == 2) && (grid[ghost.y+1][ghost.x]==9 || grid[ghost.y+1][ghost.x]==10 || grid[ghost.y+1][ghost.x]==11 || grid[ghost.y+1][ghost.x]==12 || grid[ghost.y-1][ghost.x]==9 || grid[ghost.y-1][ghost.x]==10 || grid[ghost.y-1][ghost.x]==11 || grid[ghost.y-1][ghost.x]==12))
-    //     ||
-    //     //Or if it's going up or down and left or right is available
-    //     ((currentDirection == 3 || currentDirection == 4) && (grid[ghost.y][ghost.x+1]==9 || grid[ghost.y][ghost.x+1]==10 || grid[ghost.y][ghost.x+1]==11 || grid[ghost.y][ghost.x+1]==12 || grid[ghost.y][ghost.x-1]==9 || grid[ghost.y][ghost.x-1]==10 || grid[ghost.y][ghost.x-1]==11 || grid[ghost.y][ghost.x-1]==12))
-    // ){
-    //     //Check to make sure it won't change direction to it's current direction
-    //     // while(newDirection == currentDirection){
-    //     //     newDirection = getRandom();
-    //     // }
-    //     //Change direction to a new direction
-    //     currentDirection = newDirection;
-    // }
     
     deleteGhost(oneGhost);
 
@@ -117,17 +121,18 @@ function ghostMove(oneGhost){
 }
 
 setInterval(function() {
-    ghostMove(ghost1);
-    console.log(ghost1)
-}, 2000);
+    ghostMove(ghostOne);
+    ghostMove(ghostTwo);
+    ghostMove(ghostThree);
+    ghostMove(ghostFour);
+    console.log(ghostOne)
+}, 400);
 
 
 
 function drawPacman(){
     // add pacman to the current cell
     $('.coords' +  pacman.row + '-' + pacman.col).html(pacman.htmlCode);
-    // document.getElementById('pacman').style.left = pacman.x*20+"px";
-    // document.getElementById('pacman').style.top = pacman.y*20+"px";
 }
 
 function deletePacman(){
@@ -149,9 +154,19 @@ function deleteReward(){
     }
 }
 
-drawGrid()
+
+function gameOver(oneGhost){
+    if((pacman.row == oneGhost.y) && (pacman.col == oneGhost.x)){
+        $('#gameover').fadeIn();
+        alert("You lost!");
+        location.reload();
+    }
+}
+
+
+displayGrid()
 $('.coords' +  pacman.row + '-' + pacman.col).html(pacman.htmlCode);
-displayGhost(ghost1);
+displayGhost(ghostOne);
 
 // PACMAN MOVEMENT
 document.onkeydown = function(event){
@@ -201,17 +216,55 @@ document.onkeydown = function(event){
             }
             deleteFood();
             deleteReward();
+            $('#pacman').css('transform', 'rotate(90deg)');
             deletePacman();
             pacman.row += 1;
             drawPacman();
+            // document.querySelector('div#pacman').style.transform = 'rotate(90deg)';
+            
             break;
 
     }
 
     console.log(grid[pacman.row][pacman.col])
     console.log(document.querySelector('.coords' + pacman.row + '-' + pacman.col))
+
+
+//DISPLAY SCORE
+function displayScore(){
+    document.getElementById('score').innerHTML = score;
+    // $('#score').html(score);
 }
 
+//SCORING POINTS "FOOD"
+if(grid[pacman.row][pacman.col] == 1){
+    grid[pacman.row][pacman.col] = 4;
+    score+=2;
+    displayGrid();
+    displayScore();
+}
+//SCORING CHERRIES "REWARDS"
+if(grid[pacman.row][pacman.col] == 2){
+    grid[pacman.row][pacman.col] = 7;
+    score+=10;
+    displayGrid();
+    displayScore();
+}
+
+
+drawPacman()
+gameOver(ghostOne);
+gameOver(ghostTwo);
+gameOver(ghostThree);
+gameOver(ghostFour);
+displayGhost(ghostOne);   
+displayGhost(ghostTwo);   
+displayGhost(ghostThree);   
+displayGhost(ghostFour);   
+}
+
+
+var score = 0;
 
 
  
